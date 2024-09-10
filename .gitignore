@@ -40,3 +40,4 @@ lib/
 
 # Compiled module-info class-files
 /poi*/src/*/java9/*.class
+.DS_Store

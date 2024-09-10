@@ -1002,6 +1002,34 @@ public class XSSFCellStyle implements CellStyle, Duplicatable {
         addFill(ct);
     }
 
+    public void setFillForegroundColor(FillPatternType pattern,XSSFColor color) {
+        CTFill ct = getCTFill();
+
+        CTPatternFill ctptrn = ct.isSetPatternFill() ? ct.getPatternFill() : ct.addNewPatternFill();
+        if (pattern == FillPatternType.NO_FILL && ctptrn.isSetPatternType()) {
+            ctptrn.unsetPatternType();
+        } else {
+            ctptrn.setPatternType(STPatternType.Enum.forInt(pattern.getCode() + 1));
+        }
+
+        CTPatternFill ptrn = ctptrn;
+        if(color == null) {
+            if(ptrn != null && ptrn.isSetFgColor()) ptrn.unsetFgColor();
+        } else {
+            if(ptrn == null) ptrn = ct.addNewPatternFill();
+            ptrn.setFgColor(color.getCTColor());
+        }
+
+        addFill2(ct);
+    }
+
+    private void addFill2(CTFill fill) {
+        int idx = _stylesSource.putFill2(new XSSFCellFill(fill,_stylesSource.getIndexedColors()));
+
+        _cellXf.setFillId(idx);
+        _cellXf.setApplyFill(true);
+    }
+
     /**
      * Set the font for this style
      *

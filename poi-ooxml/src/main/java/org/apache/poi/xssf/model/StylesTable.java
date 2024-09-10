@@ -536,6 +536,11 @@ public class StylesTable extends POIXMLDocumentPart implements Styles {
         return fills.size() - 1;
     }
 
+    public int putFill2(XSSFCellFill fill) {
+        fills.add(fill);
+        return fills.size() - 1;
+    }
+
     @Internal
     public CTXf getCellXfAt(int idx) {
         return xfs.get(idx);
